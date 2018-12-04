@@ -203,16 +203,46 @@ solar_gg
 
 a. Get the data, and do some wrangling:
 ```{r aqua_data}
+
+aq_df <- read_csv("aq_wb.csv")
+
+aq_tidy <- aq_df %>% 
+  filter(country == "Brazil"|
+         country == "Chile" |
+         country == "Ecuador"|
+         country == "United States") %>% 
+  gather(year, aq_prod, `1960`:`2016`) %>% 
+  filter(year >= 1990) %>% 
+  mutate(aq_mil = aq_prod/1000000) %>% 
+  select(country, year, aq_mil)
+
+#gather - create new columns year and aq_prod, based on information from columns 1960-2016 (take it from wide format to long format)
+
+# note to go from long format to wide format you can use function spread()
 ```
 
 
 b. Read in the fish.png as 'fish'
 
 ```{r fish_image}
+
+fish <- "fish.png"
 ```
 
 c. Make a graph...with gganimate!
 ```{r gganimate_fish}
+
+aq_plot <- ggplot(aq_tidy, aes(x = as.numeric(year), y = aq_mil, group = country)) +
+  geom_line(aes(color = country)) +
+  geom_point(aes(color = country)) +
+  geom_image(aes(image = fish)) +
+  geom_text(aes(label = country, color = country), position = position_nudge(y = 0.04, x = 1), size = 5)  +
+  transition_reveal(country, as.numeric(year))
+
+aq_plot
+
+# geom image adds the fish image
+# geom text 
 ```
 
 ##END LAB
