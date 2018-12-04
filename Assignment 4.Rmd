@@ -32,6 +32,14 @@ Compiled World Bank data, accessed from: https://www.kaggle.com/zanderventer/env
 - Plot the correlation matrix (corrplot)
 
 ```{r env_corr}
+
+env_var <- read_csv("world_env_vars.csv") %>% 
+  na.omit #omit NA values - DONT DO THIS WITHOUT EXPLORING DATA FIRST
+
+cor_df <- cor(env_var[2:28]) #use this to show correlation between all variables in column 2-28
+
+corrplot(cor_df, type = "upper", method = "ellipse",
+         tl.col = "black", tl.cex = 0.5) #type just shows one-half, method shows shapes, tl is for color and size of text 
 ```
 
 # PART 2. Binary Logistic Regression (Donner Party Data)
