@@ -187,9 +187,15 @@ solar_tidy$time <- hms(solar_tidy$time)
 ```
 
 d. Make an awesome figure of solar irradiation (heat/tile map)
+heat maps are just maps where the colors of the graph are meaningful 
 ```{r solar_graph}
 
-
+solar_gg <- ggplot(solar_tidy, aes(x = date, y = time)) +
+  geom_tile(aes(fill = sol_rad)) +
+  scale_fill_gradientn(colors = c("royalblue2", "mediumorchid1", "orange", "yellow")) +
+  scale_y_time() +
+  facet_grid(site ~.)
+solar_gg
 ```
 
 
